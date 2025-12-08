@@ -8,6 +8,8 @@ import '../modules/login/login_binding.dart';
 import '../modules/login/login_view.dart';
 import '../modules/create_profile/create_profile_binding.dart';
 import '../modules/create_profile/create_profile_view.dart';
+import '../modules/recipe_detail/recipe_detail_binding.dart';
+import '../modules/recipe_detail/recipe_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -24,6 +26,11 @@ class AppPages {
       name: _Paths.CREATE_PROFILE,
       page: () => const CreateProfileView(),
       binding: CreateProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECIPE_DETAILS,
+      page: () => const RecipeDetailView(),
+      binding: RecipeDetailBinding(),
     ),
   ];
 }

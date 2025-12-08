@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "471724376068",
+    "project_id": "rasoi-app-08122025",
+    "storage_bucket": "rasoi-app-08122025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471724376068:android:30394ff0e9b252f2dc3551",
+        "android_client_info": {
+          "package_name": "com.rasoi.app.rasoi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPKfgG6loh4Ushxm3MdeaFJ4mefxkRgtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
