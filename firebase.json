@@ -1,1 +1,6 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"rasoi-app-08122025","appId":"1:471724376068:android:30394ff0e9b252f2dc3551","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"rasoi-app-08122025","appId":"1:471724376068:ios:267255ab8172cb5fdc3551","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"rasoi-app-08122025","configurations":{"android":"1:471724376068:android:30394ff0e9b252f2dc3551","ios":"1:471724376068:ios:267255ab8172cb5fdc3551"}}}}}}
+{
+  "firestore": {
+    "rules": "scripts/firestore.rules",
+    "indexes": "scripts/firestore.indexes.json"
+  },
+  "flutter": {"platforms":{"android":{"default":{"projectId":"rasoi-app-08122025","appId":"1:471724376068:android:30394ff0e9b252f2dc3551","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"rasoi-app-08122025","appId":"1:471724376068:ios:267255ab8172cb5fdc3551","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"rasoi-app-08122025","configurations":{"android":"1:471724376068:android:30394ff0e9b252f2dc3551","ios":"1:471724376068:ios:267255ab8172cb5fdc3551"}}}}}}
