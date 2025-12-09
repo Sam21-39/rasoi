@@ -64,118 +64,119 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
                 ),
                 const SizedBox(height: 16),
 
-                // Category & Difficulty Row
-                Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        initialValue: controller.selectedCategory.value,
-                        decoration: const InputDecoration(
-                          labelText: 'Category',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: controller.categories
-                            .map((c) => DropdownMenuItem(value: c, child: Text(c.capitalizeFirst!)))
-                            .toList(),
-                        onChanged: (v) => controller.selectedCategory.value = v!,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        initialValue: controller.selectedDifficulty.value,
-                        decoration: const InputDecoration(
-                          labelText: 'Difficulty',
-                          border: OutlineInputBorder(),
-                        ),
-                        items: controller.difficulties
-                            .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                // Category
-                DropdownButtonFormField<String>(
-                  initialValue: controller.selectedCategory.value,
-                  decoration: const InputDecoration(
-                    labelText: 'Category',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: controller.categories
-                      .map((c) => DropdownMenuItem(value: c, child: Text(c.capitalizeFirst!)))
-                      .toList(),
-                  onChanged: (v) => controller.selectedCategory.value = v!,
-                ),
-                const SizedBox(height: 16),
-                // Difficulty & Cook Time Row
-                Row(
-                  children: [
-                    Flexible(
-                      child: Obx(
-                        () => OutlinedButton(
-                          onPressed: () => _showDifficultyPicker(context),
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(0, 48),
+                // Category & Difficulty Row - Responsive
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 400) {
+                      // Wide screen - side by side
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              value: controller.selectedCategory.value,
+                              decoration: const InputDecoration(
+                                labelText: 'Category',
+                                border: OutlineInputBorder(),
+                              ),
+                              items: controller.categories
+                                  .map(
+                                    (c) =>
+                                        DropdownMenuItem(value: c, child: Text(c.capitalizeFirst!)),
+                                  )
+                                  .toList(),
+                              onChanged: (v) => controller.selectedCategory.value = v!,
+                            ),
                           ),
-                          child: Text(
-                            controller.selectedDifficulty.value,
-                            overflow: TextOverflow.ellipsis,
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              value: controller.selectedDifficulty.value,
+                              decoration: const InputDecoration(
+                                labelText: 'Difficulty',
+                                border: OutlineInputBorder(),
+                              ),
+                              items: controller.difficulties
+                                  .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                                  .toList(),
+                              onChanged: (v) => controller.selectedDifficulty.value = v!,
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: TextFormField(
-                        controller: controller.cookTimeController,
-                        decoration: const InputDecoration(
-                          labelText: 'Cook Time (e.g., 30m)',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (v) => v!.isEmpty ? 'Required' : null,
-                      ),
-                    ),
-                  ],
+                        ],
+                      );
+                    } else {
+                      // Narrow screen - stacked
+                      return Column(
+                        children: [
+                          DropdownButtonFormField<String>(
+                            value: controller.selectedCategory.value,
+                            decoration: const InputDecoration(
+                              labelText: 'Category',
+                              border: OutlineInputBorder(),
+                            ),
+                            items: controller.categories
+                                .map(
+                                  (c) =>
+                                      DropdownMenuItem(value: c, child: Text(c.capitalizeFirst!)),
+                                )
+                                .toList(),
+                            onChanged: (v) => controller.selectedCategory.value = v!,
+                          ),
+                          const SizedBox(height: 16),
+                          DropdownButtonFormField<String>(
+                            value: controller.selectedDifficulty.value,
+                            decoration: const InputDecoration(
+                              labelText: 'Difficulty',
+                              border: OutlineInputBorder(),
+                            ),
+                            items: controller.difficulties
+                                .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                                .toList(),
+                            onChanged: (v) => controller.selectedDifficulty.value = v!,
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 16),
 
-                // Servings
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Servings:"),
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    if (controller.servings.value > 1) controller.servings.value--;
-                                  },
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  constraints: const BoxConstraints(),
-                                  padding: EdgeInsets.zero,
-                                ),
-                                Text(
-                                  "${controller.servings.value}",
-                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  onPressed: () => controller.servings.value++,
-                                  icon: const Icon(Icons.add_circle_outline),
-                                  constraints: const BoxConstraints(),
-                                  padding: EdgeInsets.zero,
-                                ),
-                              ],
+                // Cook Time & Servings Row - Responsive
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 400) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: controller.cookTimeController,
+                              decoration: const InputDecoration(
+                                labelText: 'Cook Time (e.g., 30m)',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (v) => v!.isEmpty ? 'Required' : null,
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(child: _buildServingsWidget()),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          TextFormField(
+                            controller: controller.cookTimeController,
+                            decoration: const InputDecoration(
+                              labelText: 'Cook Time (e.g., 30m)',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (v) => v!.isEmpty ? 'Required' : null,
+                          ),
+                          const SizedBox(height: 16),
+                          _buildServingsWidget(),
+                        ],
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 24),
 
@@ -221,6 +222,50 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildServingsWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text("Servings:"),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () {
+                  if (controller.servings.value > 1) controller.servings.value--;
+                },
+                icon: const Icon(Icons.remove_circle_outline),
+                constraints: const BoxConstraints(),
+                padding: EdgeInsets.zero,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Obx(
+                  () => Text(
+                    "${controller.servings.value}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () => controller.servings.value++,
+                icon: const Icon(Icons.add_circle_outline),
+                constraints: const BoxConstraints(),
+                padding: EdgeInsets.zero,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
