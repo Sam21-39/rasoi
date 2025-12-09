@@ -18,6 +18,7 @@ import '../modules/search/search_binding.dart';
 import '../modules/search/search_view.dart';
 import '../modules/settings/settings_binding.dart';
 import '../modules/settings/settings_view.dart';
+import '../modules/premium/premium_view.dart';
 import '../modules/notifications/notifications_binding.dart';
 import '../modules/notifications/notifications_view.dart';
 
@@ -50,6 +51,7 @@ class AppPages {
     GetPage(name: _Paths.SEARCH, page: () => const SearchView(), binding: SearchBinding()),
     GetPage(name: _Paths.PROFILE, page: () => const ProfileView(), binding: ProfileBinding()),
     GetPage(name: _Paths.SETTINGS, page: () => const SettingsView(), binding: SettingsBinding()),
+    GetPage(name: _Paths.PREMIUM, page: () => const PremiumView()),
     GetPage(
       name: _Paths.NOTIFICATIONS,
       page: () => const NotificationsView(),

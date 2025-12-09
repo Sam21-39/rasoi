@@ -36,7 +36,8 @@ class SearchController extends GetxController {
 
       searchResults.assignAll(snapshot.docs.map((doc) => RecipeModel.fromDocument(doc)).toList());
     } catch (e) {
-      print("Search error: $e");
+      debugPrint("Search error: $e");
+      searchResults.clear();
     } finally {
       isLoading.value = false;
     }

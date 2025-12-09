@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'settings_controller.dart';
 import '../../core/theme/app_theme.dart';
+import '../../routes/app_pages.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({Key? key}) : super(key: key);
@@ -31,6 +32,17 @@ class SettingsView extends GetView<SettingsController> {
             ),
           ),
 
+          const Divider(height: 32),
+
+          ListTile(
+            leading: const Icon(Icons.star, color: AppColors.primary),
+            title: const Text(
+              "Go Premium",
+              style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+            ),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.primary),
+            onTap: () => Get.toNamed(Routes.PREMIUM),
+          ),
           const Divider(height: 32),
 
           _buildSectionHeader("Account"),
