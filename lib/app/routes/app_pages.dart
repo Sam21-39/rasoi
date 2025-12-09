@@ -6,6 +6,10 @@ import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_view.dart';
 import '../modules/login/login_binding.dart';
 import '../modules/login/login_view.dart';
+import '../modules/signup/signup_binding.dart';
+import '../modules/signup/signup_view.dart';
+import '../modules/forgot_password/forgot_password_binding.dart';
+import '../modules/forgot_password/forgot_password_view.dart';
 import '../modules/create_profile/create_profile_binding.dart';
 import '../modules/create_profile/create_profile_view.dart';
 import '../modules/recipe_detail/recipe_detail_binding.dart';
@@ -35,6 +39,12 @@ class AppPages {
     GetPage(name: _Paths.HOME, page: () => const HomeView(), binding: HomeBinding()),
     GetPage(name: _Paths.SPLASH, page: () => const SplashView(), binding: SplashBinding()),
     GetPage(name: _Paths.LOGIN, page: () => const LoginView(), binding: LoginBinding()),
+    GetPage(name: _Paths.SIGNUP, page: () => const SignupView(), binding: SignupBinding()),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordView(),
+      binding: ForgotPasswordBinding(),
+    ),
     GetPage(
       name: _Paths.CREATE_PROFILE,
       page: () => const CreateProfileView(),

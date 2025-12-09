@@ -6,6 +6,8 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const SPLASH = _Paths.SPLASH;
   static const LOGIN = _Paths.LOGIN;
+  static const SIGNUP = _Paths.SIGNUP;
+  static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
   static const CREATE_PROFILE = _Paths.CREATE_PROFILE;
   static const RECIPE_DETAILS = _Paths.RECIPE_DETAILS;
   static const CREATE_RECIPE = _Paths.CREATE_RECIPE;
@@ -22,6 +24,8 @@ abstract class _Paths {
   static const HOME = '/home';
   static const SPLASH = '/splash';
   static const LOGIN = '/login';
+  static const SIGNUP = '/signup';
+  static const FORGOT_PASSWORD = '/forgot-password';
   static const CREATE_PROFILE = '/create_profile';
   static const RECIPE_DETAILS = '/recipe_details';
   static const CREATE_RECIPE = '/create_recipe';

@@ -1,92 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/services/auth_service.dart';
 import '../../routes/app_pages.dart';
+import '../../core/utils/validators.dart';
 
 class LoginController extends GetxController {
   final AuthService _authService = Get.find<AuthService>();
 
-  final phoneController = TextEditingController();
-  final otpController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   final RxBool isLoading = false.obs;
-  final RxBool isCodeSent = false.obs;
-  final RxString verificationId = ''.obs;
+  final RxBool obscurePassword = true.obs;
 
-  // For phone number validation
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
-  void sendOtp() async {
-    if (!loginFormKey.currentState!.validate()) return;
-
-    isLoading.value = true;
-    String phone = phoneController.text.trim();
-    if (!phone.startsWith('+91')) {
-      // Allow user to simple type 10 digits, we append +91 for India as per PRD
-      phone = '+91$phone';
-    }
-
-    try {
-      await _authService.verifyPhoneNumber(
-        phoneNumber: phone,
-        onCodeSent: (String verId, int? resendToken) {
-          verificationId.value = verId;
-          isCodeSent.value = true;
-          isLoading.value = false;
-        },
-        onVerificationFailed: (FirebaseAuthException e) {
-          isLoading.value = false;
-          Get.snackbar("Error", e.message ?? "Verification failed");
-        },
-        onVerificationCompleted: (PhoneAuthCredential credential) async {
-          // Auto-resolution (Android)
-          await _signInWithCredential(credential);
-        },
-        onCodeAutoRetrievalTimeout: (String verId) {
-          verificationId.value = verId;
-        },
-      );
-    } catch (e) {
-      isLoading.value = false;
-      Get.snackbar("Error", "Failed to send OTP: $e");
-    }
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 
-  void verifyOtp() async {
-    if (otpController.text.length < 6) {
-      Get.snackbar("Error", "Please enter valid 6-digit OTP");
-      return;
-    }
-
-    isLoading.value = true;
-    try {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId.value,
-        smsCode: otpController.text.trim(),
-      );
-      await _signInWithCredential(credential);
-    } catch (e) {
-      isLoading.value = false;
-      Get.snackbar("Error", "Invalid OTP: $e");
-    }
+  void togglePasswordVisibility() {
+    obscurePassword.value = !obscurePassword.value;
   }
 
-  Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
-    try {
-      await _authService.signInWithCredential(credential);
+  Future<void> login() async {
+    if (!formKey.currentState!.validate()) return;
 
-      // Allow time for profile fetch
-      await Future.delayed(const Duration(milliseconds: 500));
+    isLoading.value = true;
 
-      if (_authService.appUser.value == null) {
-        Get.offAllNamed(Routes.CREATE_PROFILE);
-      } else {
-        Get.offAllNamed(Routes.HOME);
-      }
-    } catch (e) {
-      isLoading.value = false;
-      Get.snackbar("Error", "Sign in failed: $e");
-    }
+    final result = await _authService.signInWithEmail(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    isLoading.value = false;
+
+    result.fold(
+      (failure) {
+        Get.snackbar(
+          'error'.tr,
+          failure.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      },
+      (userCredential) {
+        // Check if user has completed profile
+        if (_authService.hasCompletedProfile) {
+          Get.offAllNamed(Routes.HOME);
+        } else {
+          // Wait a bit for profile to load
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (_authService.hasCompletedProfile) {
+              Get.offAllNamed(Routes.HOME);
+            } else {
+              Get.offAllNamed(Routes.CREATE_PROFILE);
+            }
+          });
+        }
+      },
+    );
+  }
+
+  void navigateToSignup() {
+    Get.toNamed(Routes.SIGNUP);
+  }
+
+  void navigateToForgotPassword() {
+    Get.toNamed(Routes.FORGOT_PASSWORD);
   }
 }

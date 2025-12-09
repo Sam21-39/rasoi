@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'login_controller.dart';
+import 'signup_controller.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/validators.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class SignupView extends GetView<SignupController> {
+  const SignupView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
                 Text(
-                  'welcome_to_rasoi'.tr,
+                  'create_account'.tr,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.primary,
@@ -28,10 +28,22 @@ class LoginView extends GetView<LoginController> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Sign in to continue',
+                  'Join the Rasoi community',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 40),
+
+                // Display Name
+                TextFormField(
+                  controller: controller.displayNameController,
+                  decoration: InputDecoration(
+                    labelText: 'display_name'.tr,
+                    prefixIcon: const Icon(Icons.person),
+                  ),
+                  validator: DisplayNameValidator.validate,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 16),
 
                 // Email
                 TextFormField(
@@ -63,37 +75,68 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     obscureText: controller.obscurePassword.value,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'password_required'.tr;
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => controller.login(),
+                    validator: PasswordValidator.validate,
+                    textInputAction: TextInputAction.next,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
 
-                // Forgot Password
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: controller.navigateToForgotPassword,
-                    child: Text(
-                      'forgot_password'.tr,
-                      style: const TextStyle(color: AppColors.primary),
+                // Confirm Password
+                Obx(
+                  () => TextFormField(
+                    controller: controller.confirmPasswordController,
+                    decoration: InputDecoration(
+                      labelText: 'confirm_password'.tr,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          controller.obscureConfirmPassword.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: controller.toggleConfirmPasswordVisibility,
+                      ),
+                    ),
+                    obscureText: controller.obscureConfirmPassword.value,
+                    validator: controller.validateConfirmPassword,
+                    textInputAction: TextInputAction.done,
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Terms & Conditions
+                Obx(
+                  () => CheckboxListTile(
+                    value: controller.agreedToTerms.value,
+                    onChanged: controller.toggleTermsAgreement,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: AppColors.primary,
+                    title: Text.rich(
+                      TextSpan(
+                        text: 'I agree to the ',
+                        style: const TextStyle(fontSize: 14),
+                        children: [
+                          TextSpan(
+                            text: 'terms_of_service'.tr,
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
 
-                // Login Button
+                // Signup Button
                 Obx(
                   () => SizedBox(
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: controller.isLoading.value ? null : controller.login,
+                      onPressed: controller.isLoading.value ? null : controller.signup,
                       child: controller.isLoading.value
                           ? const SizedBox(
                               height: 20,
@@ -101,7 +144,7 @@ class LoginView extends GetView<LoginController> {
                               child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                             )
                           : Text(
-                              'login'.tr,
+                              'signup'.tr,
                               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                     ),
@@ -109,39 +152,15 @@ class LoginView extends GetView<LoginController> {
                 ),
                 const SizedBox(height: 24),
 
-                // Divider
-                Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text('or_continue_with'.tr, style: TextStyle(color: Colors.grey[600])),
-                    ),
-                    const Expanded(child: Divider()),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // Google Sign In (Placeholder)
-                OutlinedButton.icon(
-                  onPressed: null, // Disabled for now
-                  icon: const Icon(Icons.g_mobiledata, size: 32),
-                  label: Text('sign_in_with_google'.tr),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                ),
-                const SizedBox(height: 32),
-
-                // Signup Link
+                // Login Link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('dont_have_account'.tr),
+                    Text('already_have_account'.tr),
                     TextButton(
-                      onPressed: controller.navigateToSignup,
+                      onPressed: controller.navigateToLogin,
                       child: Text(
-                        'signup'.tr,
+                        'login'.tr,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,

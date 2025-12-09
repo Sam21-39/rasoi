@@ -13,7 +13,14 @@ class CreateProfileController extends GetxController {
 
   final RxBool isLoading = false.obs;
 
-  void saveProfile() async {
+  @override
+  void onClose() {
+    nameController.dispose();
+    bioController.dispose();
+    super.onClose();
+  }
+
+  Future<void> saveProfile() async {
     if (!formKey.currentState!.validate()) return;
 
     isLoading.value = true;
@@ -23,19 +30,23 @@ class CreateProfileController extends GetxController {
 
       final newUser = UserModel(
         uid: currentUser.uid,
+        email: currentUser.email,
         displayName: nameController.text.trim(),
-        phoneNumber: currentUser.phoneNumber,
-        photoURL: currentUser.photoURL ?? '', // Could add image picker here too
+        photoURL: currentUser.photoURL ?? '',
         bio: bioController.text.trim(),
+        isEmailVerified: currentUser.emailVerified,
         followerCount: 0,
         followingCount: 0,
         recipeCount: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        preferences: {'themeMode': 'system', 'language': 'en', 'notificationsEnabled': true},
       );
 
-      await _authService.createUserProfile(newUser);
+      await _authService.updateUserProfile(newUser);
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      Get.snackbar("Error", "Failed to save_profile: $e");
+      Get.snackbar("Error", "Failed to save profile: $e");
     } finally {
       isLoading.value = false;
     }
