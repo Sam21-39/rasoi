@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:get/get.dart';
 import 'home_controller.dart';
 import '../../global_widgets/recipe_card.dart';
 import '../../routes/app_pages.dart';
-import '../../core/theme/app_theme.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

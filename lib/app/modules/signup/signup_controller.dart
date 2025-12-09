@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/services/auth_service.dart';
 import '../../routes/app_pages.dart';
-import '../../core/utils/validators.dart';
 
 class SignupController extends GetxController {
   final AuthService _authService = Get.find<AuthService>();
@@ -91,7 +90,7 @@ class SignupController extends GetxController {
 
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'confirm_password'.tr + ' ' + 'email_required'.tr;
+      return '${'confirm_password'.tr} ${'email_required'.tr}';
     }
     if (value != passwordController.text) {
       return 'passwords_dont_match'.tr;

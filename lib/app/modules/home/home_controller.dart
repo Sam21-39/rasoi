@@ -12,7 +12,8 @@ class HomeController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxBool hasMore = true.obs;
 
-  // TODO: Add ScrollController for pagination // Ad logic disabled
+  // TODO: Add ScrollController for pagination
+  // Ad logic disabled
 
   @override
   void onInit() {
@@ -46,13 +47,17 @@ class HomeController extends GetxController {
   Future<void> fetchRecipes() async {
     try {
       isLoading.value = true;
-      // In a real app we would handle pagination page by page.
-      // For MVP, just fetching top 10 descending.
-      final newRecipes = await _recipeService.getRecipes(limit: 10);
-      recipes.assignAll(newRecipes);
-      // Logic for 'hasMore' would depend on last document snapshot
-    } catch (e) {
-      Get.snackbar("Error", "Failed to load recipes");
+
+      final result = await _recipeService.fetchRecipes(limit: 10);
+
+      result.fold(
+        (failure) {
+          Get.snackbar("Error", failure.message);
+        },
+        (newRecipes) {
+          recipes.assignAll(newRecipes);
+        },
+      );
     } finally {
       isLoading.value = false;
     }

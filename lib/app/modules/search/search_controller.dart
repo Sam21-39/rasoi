@@ -30,7 +30,7 @@ class SearchController extends GetxController {
           .collection('recipes')
           .where('isPublished', isEqualTo: true)
           .where('title', isGreaterThanOrEqualTo: query)
-          .where('title', isLessThan: query + 'z')
+          .where('title', isLessThan: '${query}z')
           .limit(20)
           .get();
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import '../../core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +10,6 @@ import '../../data/services/recipe_service.dart';
 import '../../data/services/storage_service.dart';
 import '../../data/services/permission_service.dart';
 import '../../routes/app_pages.dart';
-import '../../core/theme/app_theme.dart';
 
 class CreateRecipeController extends GetxController {
   final RecipeService _recipeService = Get.find<RecipeService>();
@@ -119,10 +119,23 @@ class CreateRecipeController extends GetxController {
       isLoading.value = true;
 
       // 1. Upload Image
-      String imageUrl = await _storageService.uploadImage(
-        imageFile.value!,
-        folder: 'recipe_images',
+      final uploadResult = await _storageService.uploadImage(imageFile.value!);
+
+      String imageUrl = '';
+      uploadResult.fold(
+        (failure) {
+          Get.snackbar("Error", failure.message);
+          return;
+        },
+        (url) {
+          imageUrl = url;
+        },
       );
+
+      if (imageUrl.isEmpty) {
+        isLoading.value = false;
+        return;
+      }
 
       // 2. Create Recipe Object
       final currentUser = _authService.appUser.value;

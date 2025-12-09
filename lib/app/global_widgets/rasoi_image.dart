@@ -12,7 +12,7 @@ class RasoiImage extends StatelessWidget {
   final Widget? errorWidget;
 
   const RasoiImage({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.width,
     this.height,
@@ -20,7 +20,7 @@ class RasoiImage extends StatelessWidget {
     this.borderRadius = 0,
     this.placeholder,
     this.errorWidget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

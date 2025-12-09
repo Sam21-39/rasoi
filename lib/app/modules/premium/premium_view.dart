@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:get/get.dart';
-import '../../core/theme/app_theme.dart';
 
 class PremiumView extends StatelessWidget {
-  const PremiumView({Key? key}) : super(key: key);
+  const PremiumView({super.key});
 
   @override
   Widget build(BuildContext context) {

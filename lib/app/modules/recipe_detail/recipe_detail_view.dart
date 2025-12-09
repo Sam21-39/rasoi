@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:get/get.dart';
 import 'recipe_detail_controller.dart';
-import '../../core/theme/app_theme.dart';
 import '../../global_widgets/rasoi_image.dart';
 
 class RecipeDetailView extends GetView<RecipeDetailController> {
-  const RecipeDetailView({Key? key}) : super(key: key);
+  const RecipeDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {

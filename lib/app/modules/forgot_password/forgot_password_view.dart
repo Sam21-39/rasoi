@@ -5,7 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/utils/validators.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  const ForgotPasswordView({Key? key}) : super(key: key);
+  const ForgotPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {

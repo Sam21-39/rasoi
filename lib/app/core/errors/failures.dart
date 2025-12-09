@@ -9,25 +9,25 @@ abstract class Failure {
 
 /// Network-related failures
 class NetworkFailure extends Failure {
-  const NetworkFailure([String message = 'Network error occurred']) : super(message);
+  const NetworkFailure([super.message = 'Network error occurred']);
 }
 
 /// Server-related failures
 class ServerFailure extends Failure {
-  const ServerFailure([String message = 'Server error occurred']) : super(message);
+  const ServerFailure([super.message = 'Server error occurred']);
 }
 
 /// Cache-related failures
 class CacheFailure extends Failure {
-  const CacheFailure([String message = 'Cache error occurred']) : super(message);
+  const CacheFailure([super.message = 'Cache error occurred']);
 }
 
 /// Validation failures
 class ValidationFailure extends Failure {
-  const ValidationFailure(String message) : super(message);
+  const ValidationFailure(super.message);
 }
 
 /// Unknown/Unexpected failures
 class UnexpectedFailure extends Failure {
-  const UnexpectedFailure([String message = 'An unexpected error occurred']) : super(message);
+  const UnexpectedFailure([super.message = 'An unexpected error occurred']);
 }

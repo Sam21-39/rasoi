@@ -2,7 +2,7 @@ import 'failures.dart';
 
 /// Recipe-specific failures
 class RecipeFailure extends Failure {
-  const RecipeFailure(String message) : super(message);
+  const RecipeFailure(super.message);
 
   factory RecipeFailure.notFound() {
     return const RecipeFailure('Recipe not found');
@@ -27,7 +27,7 @@ class RecipeFailure extends Failure {
 
 /// Storage-specific failures
 class StorageFailure extends Failure {
-  const StorageFailure(String message) : super(message);
+  const StorageFailure(super.message);
 
   factory StorageFailure.uploadFailed() {
     return const StorageFailure('Failed to upload image');

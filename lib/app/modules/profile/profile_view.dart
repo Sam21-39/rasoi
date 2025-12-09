@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:get/get.dart';
 import '../../routes/app_pages.dart';
 import 'profile_controller.dart';
-import '../../core/theme/app_theme.dart';
 import '../../global_widgets/rasoi_image.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {

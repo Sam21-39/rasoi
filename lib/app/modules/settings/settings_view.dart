@@ -9,7 +9,7 @@ import '../../core/enums/app_theme_mode.dart';
 import '../../core/enums/app_language.dart';
 
 class SettingsView extends GetView<SettingsController> {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class SettingsView extends GetView<SettingsController> {
               title: Text('enable_notifications'.tr),
               value: controller.pushNotificationsEnabled.value,
               onChanged: controller.togglePushNotifications,
-              activeColor: AppColors.primary,
+              activeThumbColor: AppColors.primary,
             ),
           ),
 

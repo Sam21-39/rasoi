@@ -5,7 +5,7 @@ import 'search_controller.dart'
 import '../../global_widgets/rasoi_image.dart';
 
 class SearchView extends GetView<app.SearchController> {
-  const SearchView({Key? key}) : super(key: key);
+  const SearchView({super.key});
 
   @override
   Widget build(BuildContext context) {

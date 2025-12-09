@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'create_profile_controller.dart';
-import '../../core/theme/app_theme.dart';
+import '../../core/theme/app_colors.dart';
 
 class CreateProfileView extends GetView<CreateProfileController> {
-  const CreateProfileView({Key? key}) : super(key: key);
+  const CreateProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {

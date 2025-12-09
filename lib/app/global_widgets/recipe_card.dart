@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../routes/app_pages.dart';
 import 'rasoi_image.dart';
-import '../core/theme/app_theme.dart';
+import '../core/theme/app_colors.dart';
 import '../data/models/recipe_model.dart';
 
 class RecipeCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class RecipeCard extends StatelessWidget {
   // Callback when card is tapped, or navigate internally
   final VoidCallback? onTap;
 
-  const RecipeCard({Key? key, required this.recipe, this.onTap}) : super(key: key);
+  const RecipeCard({super.key, required this.recipe, this.onTap});
 
   @override
   Widget build(BuildContext context) {

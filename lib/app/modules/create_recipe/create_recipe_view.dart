@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:get/get.dart';
 import 'create_recipe_controller.dart';
-import '../../core/theme/app_theme.dart';
 
 class CreateRecipeView extends GetView<CreateRecipeController> {
-  const CreateRecipeView({Key? key}) : super(key: key);
+  const CreateRecipeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: controller.selectedCategory.value,
+                        initialValue: controller.selectedCategory.value,
                         decoration: const InputDecoration(
                           labelText: 'Category',
                           border: OutlineInputBorder(),
@@ -83,7 +83,7 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: controller.selectedDifficulty.value,
+                        initialValue: controller.selectedDifficulty.value,
                         decoration: const InputDecoration(
                           labelText: 'Difficulty',
                           border: OutlineInputBorder(),
