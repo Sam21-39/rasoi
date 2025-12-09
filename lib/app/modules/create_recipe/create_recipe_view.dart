@@ -90,17 +90,37 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
                         ),
                         items: controller.difficulties
                             .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                            .toList(),
-                        onChanged: (v) => controller.selectedDifficulty.value = v!,
-                      ),
-                    ),
-                  ],
+                // Category
+                DropdownButtonFormField<String>(
+                  initialValue: controller.selectedCategory.value,
+                  decoration: const InputDecoration(
+                    labelText: 'Category',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: controller.categories
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c.capitalizeFirst!)))
+                      .toList(),
+                  onChanged: (v) => controller.selectedCategory.value = v!,
                 ),
                 const SizedBox(height: 16),
-
-                // Cook Time & Servings
+                // Difficulty & Cook Time Row
                 Row(
                   children: [
+                    Flexible(
+                      child: Obx(
+                        () => OutlinedButton(
+                          onPressed: () => _showDifficultyPicker(context),
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size(0, 48),
+                          ),
+                          child: Text(
+                            controller.selectedDifficulty.value,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: TextFormField(
                         controller: controller.cookTimeController,
@@ -111,7 +131,13 @@ class CreateRecipeView extends GetView<CreateRecipeController> {
                         validator: (v) => v!.isEmpty ? 'Required' : null,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Servings
+                Row(
+                  children: [
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
