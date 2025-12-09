@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home_controller.dart';
 import '../../global_widgets/recipe_card.dart';
+import '../../routes/app_pages.dart';
 import '../../core/theme/app_theme.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -12,8 +13,12 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('Rasoi Feed', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_none)),
+          IconButton(
+            onPressed: () => Get.toNamed(Routes.NOTIFICATIONS),
+            icon: const Icon(Icons.notifications_none),
+          ),
+          IconButton(onPressed: () => Get.toNamed(Routes.SEARCH), icon: const Icon(Icons.search)),
+          IconButton(onPressed: () => Get.toNamed(Routes.PROFILE), icon: const Icon(Icons.person)),
         ],
       ),
       body: Obx(() {
@@ -58,9 +63,8 @@ class HomeView extends GetView<HomeController> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to Create Recipe (Phase 3)
-          // Get.toNamed(Routes.CREATE_RECIPE);
-          Get.snackbar("Coming Soon", "Recipe creation is Phase 3");
+          // Navigate to Create Recipe
+          Get.toNamed(Routes.CREATE_RECIPE);
         },
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: Colors.white),

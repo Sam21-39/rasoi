@@ -8,6 +8,11 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const CREATE_PROFILE = _Paths.CREATE_PROFILE;
   static const RECIPE_DETAILS = _Paths.RECIPE_DETAILS;
+  static const CREATE_RECIPE = _Paths.CREATE_RECIPE;
+  static const PROFILE = _Paths.PROFILE;
+  static const SEARCH = _Paths.SEARCH;
+  static const SETTINGS = _Paths.SETTINGS;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
 }
 
 abstract class _Paths {
@@ -17,4 +22,9 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const CREATE_PROFILE = '/create_profile';
   static const RECIPE_DETAILS = '/recipe_details';
+  static const CREATE_RECIPE = '/create_recipe';
+  static const PROFILE = '/profile';
+  static const SEARCH = '/search';
+  static const SETTINGS = '/settings';
+  static const NOTIFICATIONS = '/notifications';
 }

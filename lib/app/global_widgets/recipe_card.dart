@@ -3,6 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../data/models/recipe_model.dart';
 import '../core/theme/app_theme.dart';
 
+import 'package:get/get.dart';
+import '../routes/app_pages.dart';
+
 class RecipeCard extends StatelessWidget {
   final RecipeModel recipe;
   final VoidCallback onTap;
@@ -91,22 +94,26 @@ class RecipeCard extends StatelessWidget {
                   // Author Row
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage: recipe.authorPhoto.isNotEmpty
-                            ? NetworkImage(recipe.authorPhoto)
-                            : null,
-                        child: recipe.authorPhoto.isEmpty
-                            ? const Icon(Icons.person, size: 12)
-                            : null,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        recipe.authorName,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                      GestureDetector(
+                        onTap: () => Get.toNamed(Routes.PROFILE, arguments: recipe.authorId),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 10,
+                              backgroundImage:
+                                  (recipe.authorPhoto != null && recipe.authorPhoto!.isNotEmpty)
+                                  ? NetworkImage(recipe.authorPhoto!)
+                                  : null,
+                              child: (recipe.authorPhoto == null || recipe.authorPhoto!.isEmpty)
+                                  ? const Icon(Icons.person, size: 12)
+                                  : null,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              recipe.authorName ?? 'Chef',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
                         ),
                       ),
                       const Spacer(),

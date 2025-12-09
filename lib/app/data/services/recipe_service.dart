@@ -34,4 +34,16 @@ class RecipeService extends GetxService {
     }
     return null;
   }
+
+  // Fetch recipes by specific author
+  Future<List<RecipeModel>> getRecipesByAuthor(String authorId) async {
+    QuerySnapshot query = await _firestore
+        .collection('recipes')
+        .where('authorId', isEqualTo: authorId)
+        .where('isPublished', isEqualTo: true)
+        .orderBy('createdAt', descending: true)
+        .get();
+
+    return query.docs.map((doc) => RecipeModel.fromDocument(doc)).toList();
+  }
 }
