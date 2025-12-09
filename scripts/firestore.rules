@@ -31,6 +31,13 @@ service cloud.firestore {
       allow delete: if isSignedIn() 
                    && resource.data.authorId == request.auth.uid;
     }
+
+    // Categories Collection (Public read, Authenticated write for seeding)
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
     
     // Validating basic data integrity could be added (e.g. check required fields)
   }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../data/services/recipe_service.dart';
+import '../../data/services/seeding_service.dart';
 import '../../data/models/recipe_model.dart';
 import '../../routes/app_pages.dart';
 
@@ -15,6 +16,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Get.find<SeedingService>().seedData();
     fetchRecipes();
   }
 

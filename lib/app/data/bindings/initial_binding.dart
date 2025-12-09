@@ -8,7 +8,6 @@ class InitialBinding extends Bindings {
   void dependencies() {
     Get.put<AuthService>(AuthService(), permanent: true);
     Get.lazyPut<RecipeService>(() => RecipeService(), fenix: true);
-    // Initialize SeedingService and run seed (could be moved to main or splash in production)
-    Get.put<SeedingService>(SeedingService()).seedData();
+    Get.put<SeedingService>(SeedingService());
   }
 }
