@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'home_controller.dart';
 import '../../global_widgets/recipe_card.dart';
 import '../../routes/app_pages.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../core/theme/app_theme.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -68,13 +67,13 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
             ),
-            if (controller.bannerAd.value != null)
-              Container(
-                alignment: Alignment.center,
-                width: controller.bannerAd.value!.size.width.toDouble(),
-                height: controller.bannerAd.value!.size.height.toDouble(),
-                child: AdWidget(ad: controller.bannerAd.value!),
-              ),
+            Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: 50,
+              color: Colors.grey[200],
+              child: const Text("Ad Placeholder", style: TextStyle(color: Colors.grey)),
+            ),
           ],
         );
       }),

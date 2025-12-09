@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../../data/models/recipe_model.dart';
 import '../../data/services/auth_service.dart';
 import '../../data/services/recipe_service.dart';
 import '../../data/services/storage_service.dart';
+import '../../data/services/permission_service.dart';
 import '../../routes/app_pages.dart';
 import '../../core/theme/app_theme.dart';
 
@@ -44,12 +44,13 @@ class CreateRecipeController extends GetxController {
 
   void pickImage() async {
     // Check permission
-    var status = await Permission.photos.request();
-    // On Android 13+ use photos, older use storage? simple check for now:
-    if (Platform.isAndroid) {
-      // Android 13+ separate permission, simplified here
-      // status = await Permission.storage.request();
-      // Just proceeding with picker for simplicity as image_picker handles most intents
+    final PermissionService info = Get.find<PermissionService>();
+    final hasPermission = await info.requestPhotosPermission();
+
+    if (!hasPermission) {
+      Get.snackbar("Permission Denied", "Photos permission is required to upload images.");
+      // Optionally open settings using info.openSettings();
+      return;
     }
 
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);

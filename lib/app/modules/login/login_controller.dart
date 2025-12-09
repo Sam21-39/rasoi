@@ -75,19 +75,15 @@ class LoginController extends GetxController {
   Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
     try {
       await _authService.signInWithCredential(credential);
-      // Check if user has profile, if not go to Create Profile
-      // For now, let's just go to CreateProfile if user is new (rudimentary check or always for MVP first time?)
-      // We will rely on Splash to direct returning users correctly.
-      // But for Login flow:
 
-      // We should check if appUser is set.
-      // Wait a bit for auth service to key logic?
+      // Allow time for profile fetch
+      await Future.delayed(const Duration(milliseconds: 500));
 
-      Get.offAllNamed(Routes.HOME);
-      // Ideally:
-      // if (_authService.appUser.value == null) Get.offAllNamed(Routes.CREATE_PROFILE);
-      // else Get.offAllNamed(Routes.HOME);
-      // But async timing is tricky. Let's send to Home, and Home redirects.
+      if (_authService.appUser.value == null) {
+        Get.offAllNamed(Routes.CREATE_PROFILE);
+      } else {
+        Get.offAllNamed(Routes.HOME);
+      }
     } catch (e) {
       isLoading.value = false;
       Get.snackbar("Error", "Sign in failed: $e");

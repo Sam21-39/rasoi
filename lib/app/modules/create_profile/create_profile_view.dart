@@ -5,57 +5,62 @@ import '../../core/theme/app_theme.dart';
 
 class CreateProfileView extends GetView<CreateProfileController> {
   const CreateProfileView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Setup Profile")),
+      appBar: AppBar(title: const Text("Create Profile")),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.grey,
-              child: Icon(Icons.person, size: 50, color: Colors.white),
-              // TODO: Implement Image Picker
-            ),
-            const SizedBox(height: 16),
-            const Text("Add a photo (Optional)", style: TextStyle(color: Colors.grey)),
-            const SizedBox(height: 32),
-            TextField(
-              controller: controller.nameController,
-              decoration: const InputDecoration(
-                labelText: "Display Name",
-                border: OutlineInputBorder(),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                "Tell us about yourself",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: controller.bioController,
-              decoration: const InputDecoration(
-                labelText: "Bio (Max 100 chars)",
-                border: OutlineInputBorder(),
+              const SizedBox(height: 24),
+              TextFormField(
+                controller: controller.nameController,
+                decoration: const InputDecoration(
+                  labelText: "Display Name",
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter your name";
+                  }
+                  return null;
+                },
               ),
-              maxLength: 100,
-            ),
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: Obx(
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: controller.bioController,
+                decoration: const InputDecoration(
+                  labelText: "Bio (Optional)",
+                  prefixIcon: Icon(Icons.info_outline),
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              const SizedBox(height: 32),
+              Obx(
                 () => ElevatedButton(
                   onPressed: controller.isLoading.value ? null : controller.saveProfile,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: controller.isLoading.value
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Complete Setup"),
+                      : const Text("Get Started", style: TextStyle(fontSize: 18)),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../routes/app_pages.dart';
 import '../../data/services/auth_service.dart';
 
@@ -13,19 +14,22 @@ class SplashController extends GetxController {
     // Wait for a moment to show splash
     await Future.delayed(const Duration(seconds: 2));
 
-    // Check if user is logged in using AuthService
-    // We can access it via Get.find since it is permanent
     try {
       final authService = Get.find<AuthService>();
       if (authService.isLoggedIn) {
-        // Here we could check if profile is complete
-        // For now, go to Home
         Get.offNamed(Routes.HOME);
       } else {
-        Get.offNamed(Routes.LOGIN);
+        // Check if onboarding seen
+        final prefs = await SharedPreferences.getInstance();
+        final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+
+        if (hasSeenOnboarding) {
+          Get.offNamed(Routes.LOGIN);
+        } else {
+          Get.offNamed(Routes.ONBOARDING);
+        }
       }
     } catch (e) {
-      // Fallback
       Get.offNamed(Routes.LOGIN);
     }
   }

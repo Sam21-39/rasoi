@@ -1,32 +1,27 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../data/services/recipe_service.dart';
 import '../../data/services/seeding_service.dart';
 import '../../data/models/recipe_model.dart';
-import '../../data/services/ad_service.dart';
 import '../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
   final RecipeService _recipeService = Get.find<RecipeService>();
-  final AdService _adService = Get.find<AdService>();
+  final SeedingService _seedingService = Get.find<SeedingService>();
 
   final RxList<RecipeModel> recipes = <RecipeModel>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool hasMore = true.obs;
 
-  final Rx<BannerAd?> bannerAd = Rx<BannerAd?>(null);
-
-  // TODO: Add ScrollController for pagination
+  // TODO: Add ScrollController for pagination // Ad logic disabled
 
   @override
   void onInit() {
     super.onInit();
-    Get.find<SeedingService>().seedData();
+    _seedingService.seedData(); // Check and seed if needed
     fetchRecipes();
-    _loadBannerAd();
   }
 
+  /*
   void _loadBannerAd() {
     try {
       // createBannerAd returns a BannerAd?, so no need to cast if signature matches
@@ -46,6 +41,7 @@ class HomeController extends GetxController {
       debugPrint("Ad setup failed: $e");
     }
   }
+  */
 
   Future<void> fetchRecipes() async {
     try {
@@ -66,9 +62,11 @@ class HomeController extends GetxController {
     Get.toNamed(Routes.RECIPE_DETAILS, arguments: recipe);
   }
 
+  /*
   @override
   void onClose() {
-    bannerAd.value?.dispose();
+    // bannerAd.value?.dispose();
     super.onClose();
   }
+  */
 }

@@ -4,7 +4,8 @@ import '../services/recipe_service.dart';
 import '../services/seeding_service.dart';
 import '../services/storage_service.dart';
 import '../services/user_service.dart';
-import '../services/ad_service.dart';
+import '../services/permission_service.dart';
+import '../services/notification_service.dart';
 
 class InitialBinding extends Bindings {
   @override
@@ -14,6 +15,8 @@ class InitialBinding extends Bindings {
     Get.put<SeedingService>(SeedingService());
     Get.lazyPut<StorageService>(() => StorageService(), fenix: true);
     Get.lazyPut<UserService>(() => UserService(), fenix: true);
-    Get.putAsync<AdService>(() => AdService().init());
+    Get.put<PermissionService>(PermissionService());
+    Get.put<NotificationService>(NotificationService());
+    // Get.putAsync<AdService>(() => AdService().init()); // Disabled for now
   }
 }

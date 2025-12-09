@@ -14,6 +14,7 @@ abstract class Routes {
   static const SETTINGS = _Paths.SETTINGS;
   static const PREMIUM = _Paths.PREMIUM;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const ONBOARDING = _Paths.ONBOARDING;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const SETTINGS = '/settings';
   static const PREMIUM = '/premium';
   static const NOTIFICATIONS = '/notifications';
+  static const ONBOARDING = '/onboarding';
 }
