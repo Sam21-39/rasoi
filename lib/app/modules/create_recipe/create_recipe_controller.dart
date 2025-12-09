@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../data/models/recipe_model.dart';
 import '../../data/services/auth_service.dart';
 import '../../data/services/recipe_service.dart';
@@ -42,6 +43,15 @@ class CreateRecipeController extends GetxController {
   final List<String> difficulties = ['Easy', 'Medium', 'Hard'];
 
   void pickImage() async {
+    // Check permission
+    var status = await Permission.photos.request();
+    // On Android 13+ use photos, older use storage? simple check for now:
+    if (Platform.isAndroid) {
+      // Android 13+ separate permission, simplified here
+      // status = await Permission.storage.request();
+      // Just proceeding with picker for simplicity as image_picker handles most intents
+    }
+
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _cropImage(pickedFile.path);

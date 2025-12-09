@@ -48,6 +48,7 @@ class AppPages {
       binding: CreateRecipeBinding(),
     ),
     GetPage(name: _Paths.SEARCH, page: () => const SearchView(), binding: SearchBinding()),
+    GetPage(name: _Paths.PROFILE, page: () => const ProfileView(), binding: ProfileBinding()),
     GetPage(name: _Paths.SETTINGS, page: () => const SettingsView(), binding: SettingsBinding()),
     GetPage(
       name: _Paths.NOTIFICATIONS,

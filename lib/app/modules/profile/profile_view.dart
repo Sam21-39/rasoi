@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../routes/app_pages.dart';
 import 'profile_controller.dart';
 import '../../core/theme/app_theme.dart';
+import '../../global_widgets/rasoi_image.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
@@ -113,7 +113,7 @@ class ProfileView extends GetView<ProfileController> {
                         Expanded(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: CachedNetworkImage(imageUrl: recipe.imageURL, fit: BoxFit.cover),
+                            child: RasoiImage(imageUrl: recipe.imageURL, fit: BoxFit.cover),
                           ),
                         ),
                         const SizedBox(height: 8),

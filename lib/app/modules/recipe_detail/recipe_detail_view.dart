@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'recipe_detail_controller.dart';
 import '../../core/theme/app_theme.dart';
+import '../../global_widgets/rasoi_image.dart';
 
 class RecipeDetailView extends GetView<RecipeDetailController> {
   const RecipeDetailView({Key? key}) : super(key: key);
@@ -22,11 +22,7 @@ class RecipeDetailView extends GetView<RecipeDetailController> {
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
                   tag: 'recipe_${recipe.id}',
-                  child: CachedNetworkImage(
-                    imageUrl: recipe.imageURL,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(color: Colors.grey[200]),
-                  ),
+                  child: RasoiImage(imageUrl: recipe.imageURL, fit: BoxFit.cover),
                 ),
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'search_controller.dart'
     as app; // Alias to avoid conflict with Flutter's SearchController if needed
+import '../../global_widgets/rasoi_image.dart';
 
 class SearchView extends GetView<app.SearchController> {
   const SearchView({Key? key}) : super(key: key);
@@ -46,12 +46,11 @@ class SearchView extends GetView<app.SearchController> {
                 contentPadding: const EdgeInsets.all(8),
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: CachedNetworkImage(
+                  child: RasoiImage(
                     imageUrl: recipe.imageURL,
                     width: 60,
                     height: 60,
                     fit: BoxFit.cover,
-                    placeholder: (c, u) => Container(color: Colors.grey[200]),
                   ),
                 ),
                 title: Text(

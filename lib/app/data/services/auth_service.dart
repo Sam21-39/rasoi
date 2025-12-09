@@ -63,6 +63,9 @@ class AuthService extends GetxService {
         .doc(currentUser.value!.uid)
         .set(user.toMap(), SetOptions(merge: true));
 
+    // Force immediate fetch to ensure app state is consistent
+    await _fetchUserProfile(currentUser.value!.uid);
+
     // Refresh local user data
     await _fetchUserProfile(currentUser.value!.uid);
   }
