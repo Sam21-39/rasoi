@@ -1,0 +1,122 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================
+    // Helper Functions
+    // ============================================
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Check if user is the owner of the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Validate string length
+    function isValidString(field, minLen, maxLen) {
+      return field is string && field.size() >= minLen && field.size() <= maxLen;
+    }
+    
+    // ============================================
+    // Users Collection
+    // ============================================
+    match /users/{userId} {
+      // Anyone can read user profiles (for displaying author info)
+      allow read: if true;
+      
+      // Only the user can create/update their own profile
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      
+      // Users can delete their own profile
+      allow delete: if isOwner(userId);
+    }
+    
+    // ============================================
+    // Recipes Collection
+    // ============================================
+    match /recipes/{recipeId} {
+      // Anyone can read recipes
+      allow read: if true;
+      
+      // Authenticated users can create recipes
+      allow create: if isAuthenticated() 
+        && request.resource.data.authorId == request.auth.uid
+        && isValidString(request.resource.data.title, 3, 100);
+      
+      // Only the author can update their recipe
+      allow update: if isAuthenticated() 
+        && resource.data.authorId == request.auth.uid;
+      
+      // Only the author can delete their recipe
+      allow delete: if isAuthenticated() 
+        && resource.data.authorId == request.auth.uid;
+    }
+    
+    // ============================================
+    // Comments Collection
+    // ============================================
+    match /comments/{commentId} {
+      // Anyone can read comments
+      allow read: if true;
+      
+      // Authenticated users can create comments
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && isValidString(request.resource.data.text, 1, 500);
+      
+      // Only the comment author can update (within 5 minutes - handled in app)
+      allow update: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      
+      // Only the comment author can delete
+      allow delete: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+    }
+    
+    // ============================================
+    // Likes Collection
+    // ============================================
+    match /likes/{likeId} {
+      // Anyone can read likes (for count display)
+      allow read: if true;
+      
+      // Authenticated users can create likes (likeId = {userId}_{recipeId})
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && likeId == request.auth.uid + '_' + request.resource.data.recipeId;
+      
+      // Users can delete their own likes (unlike)
+      allow delete: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      
+      // No updates allowed on likes
+      allow update: if false;
+    }
+    
+    // ============================================
+    // Saved Recipes Collection
+    // ============================================
+    match /savedRecipes/{saveId} {
+      // Only the owner can read their saved recipes
+      allow read: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      
+      // Authenticated users can save recipes (saveId = {userId}_{recipeId})
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid
+        && saveId == request.auth.uid + '_' + request.resource.data.recipeId;
+      
+      // Users can unsave recipes
+      allow delete: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      
+      // No updates allowed on saves
+      allow update: if false;
+    }
+  }
+}

@@ -1,0 +1,77 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // ============================================
+    // Helper Functions
+    // ============================================
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Check file size (max 5MB)
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024;
+    }
+    
+    // Check if file is an image
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    // ============================================
+    // Profile Pictures
+    // ============================================
+    match /profile_pictures/{userId}/{fileName} {
+      // Anyone can read profile pictures
+      allow read: if true;
+      
+      // Only the owner can upload their profile picture
+      allow write: if isAuthenticated() 
+        && request.auth.uid == userId
+        && isImage()
+        && isValidSize();
+      
+      // Owner can delete their profile picture
+      allow delete: if isAuthenticated() 
+        && request.auth.uid == userId;
+    }
+    
+    // ============================================
+    // Recipe Images
+    // ============================================
+    match /recipe_images/{recipeId}/{fileName} {
+      // Anyone can read recipe images
+      allow read: if true;
+      
+      // Authenticated users can upload recipe images
+      // Note: Additional validation should be done in the app
+      // to ensure the user owns the recipe
+      allow write: if isAuthenticated()
+        && isImage()
+        && isValidSize();
+      
+      // Allow delete by authenticated users
+      // App-level validation ensures only owners can delete
+      allow delete: if isAuthenticated();
+    }
+    
+    // ============================================
+    // Recipe Step Images
+    // ============================================
+    match /recipe_images/{recipeId}/steps/{stepFileName} {
+      // Anyone can read step images
+      allow read: if true;
+      
+      // Authenticated users can upload step images
+      allow write: if isAuthenticated()
+        && isImage()
+        && isValidSize();
+      
+      // Allow delete by authenticated users
+      allow delete: if isAuthenticated();
+    }
+  }
+}
