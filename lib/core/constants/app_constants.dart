@@ -28,8 +28,12 @@ class AppConstants {
   static const int maxRecipeDescriptionLength = 200;
   static const int maxCommentLength = 500;
   static const int maxBioLength = 200;
+  static const int maxDisplayNameLength = 50;
   static const int minIngredientsCount = 2;
   static const int minStepsCount = 3;
+
+  /// Alias for ingredientUnits for convenience
+  static const List<String> units = ingredientUnits;
 
   // ============================================
   // File Sizes

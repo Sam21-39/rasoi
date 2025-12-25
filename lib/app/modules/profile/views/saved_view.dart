@@ -19,7 +19,7 @@ class SavedView extends GetView<ProfileController> {
         elevation: 0,
       ),
       body: Obx(() {
-        if (controller.isLoading.value) {
+        if (controller.isLoadingSavedRecipes.value) {
           return const Center(child: CircularProgressIndicator());
         }
 

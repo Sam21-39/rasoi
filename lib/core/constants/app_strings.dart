@@ -104,6 +104,7 @@ class AppStrings {
   static const String minutes = 'min';
   static const String likes = 'likes';
   static const String views = 'views';
+  static const String startCooking = 'Start Cooking';
   static const String share = 'Share';
   static const String saveRecipe = 'Save Recipe';
   static const String unsaveRecipe = 'Remove from Saved';

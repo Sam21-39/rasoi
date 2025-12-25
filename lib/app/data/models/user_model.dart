@@ -14,6 +14,7 @@ class UserModel {
   final int recipesCount;
   final int likesReceived;
   final int followersCount;
+  final int followingCount;
 
   const UserModel({
     required this.userId,
@@ -27,6 +28,7 @@ class UserModel {
     this.recipesCount = 0,
     this.likesReceived = 0,
     this.followersCount = 0,
+    this.followingCount = 0,
   });
 
   /// Create UserModel from Firestore document
@@ -49,6 +51,7 @@ class UserModel {
       recipesCount: json['recipesCount'] ?? 0,
       likesReceived: json['likesReceived'] ?? 0,
       followersCount: json['followersCount'] ?? 0,
+      followingCount: json['followingCount'] ?? 0,
     );
   }
 
@@ -66,6 +69,7 @@ class UserModel {
       'recipesCount': recipesCount,
       'likesReceived': likesReceived,
       'followersCount': followersCount,
+      'followingCount': followingCount,
     };
   }
 
@@ -82,6 +86,7 @@ class UserModel {
     int? recipesCount,
     int? likesReceived,
     int? followersCount,
+    int? followingCount,
   }) {
     return UserModel(
       userId: userId ?? this.userId,
@@ -95,6 +100,7 @@ class UserModel {
       recipesCount: recipesCount ?? this.recipesCount,
       likesReceived: likesReceived ?? this.likesReceived,
       followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount ?? this.followingCount,
     );
   }
 
